@@ -2,6 +2,7 @@
 
 #include <ctype.h>
 #include <errno.h>
+#include <locale.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,12 +15,14 @@
 #define ARRAY_SIZE(x) ((sizeof(x)) / (sizeof(x[0])))
 
 /* clang-format off */
-/* Keep sorted for binary search */
+/* Keep sorted for binary search, sort(1) is your best friend. */
 static struct Tag replace[] = {
+	{ '"',  "\\(dq" },
 	{ '\'', "\\(aq" },
 	{ '-',  "\\-"   },
 	{ '\\', "\\e"   },
 	{ '^',  "\\(ha" },
+	{ '`',  "\\(ga" },
 	{ '~',  "\\(ti" }
 };
 /* clang-format on */
@@ -374,6 +377,9 @@ parse_file(const char *s)
 		}
 		else if (newline) {
 			switch (*s) {
+			case '.':
+				fputs("\\&.", stdout);
+				break;
 			case '\n':
 				s = parse_paragraph(s);
 				continue;
@@ -462,8 +468,9 @@ main(int argc, char **argv)
 {
 	if (argc != 2)
 		usage();
-	const char *buf = load_file(argv[1]);
+	setlocale(LC_ALL, "");
 
+	const char *buf = load_file(argv[1]);
 	parse_file(buf);
 
 #ifdef DEBUG /* Make valgrind more useful */
