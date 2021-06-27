@@ -139,8 +139,8 @@ This is more unformatted text.
 `
 
 ``
-In this unformatted text, I want to be able to write the backtick (`) so I will instead use '``'
-as opposed to '`'.
+In this unformatted text, I want to be able to write the backtick (`) so I will instead use 2
+backticks as opposed to one.
 
 I could also have used 4 or 6 backticks, but that is unnecessary.
 ``
