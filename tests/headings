@@ -1,0 +1,16 @@
+@name HEADINGS
+@date 2021-06-16
+@section 7
+@version 1.0.0
+@title MPG Tests
+
+# TEST
+# THIS IS A MAIN HEADING
+
+## THIS IS A SUBHEADING
+
+### THIS IS ALSO A SUBHEADING
+
+# # THIS IS A MAIN HEADING
+
+\# And this is not a heading at all!

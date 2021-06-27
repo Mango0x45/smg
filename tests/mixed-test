@@ -1,0 +1,49 @@
+@name MIXED-TEST
+@version 1.0.0
+
+@section 7
+@title General Commands Manual
+@date 2021-06-23
+
+# NAME
+Something.
+
+## Whatever, Marco!
+New paragraph hype.
+More new paragraph hype.
+
+**Here** is some code.
+>
+(list 1 2 3
+      4 5 6
+      7 8 9)
+<<
+Lets go :callme: :eye:
+__Italic__
+>
+
+\# Hi\\\
+This 'should' line\-break. 5 - 5
+
+^Aren\'t~
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int
+main(int argc, char *argv[])
+{
+	int i;
+
+	for (i = 0; i < argc; i++) {
+		if (!strcmp(argv[i], "-")) {
+			/* Read from stdin */
+		} else
+			printf("%s\n", argv[i]);
+	}
+
+	exit(EXIT_SUCCESS);
+}
+```

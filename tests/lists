@@ -1,0 +1,32 @@
+@name LISTS
+@date 2021-06-21
+@section 7
+@version 1.0.0
+@title MPG Tests
+
+# TEST
+* **-h**, **--help**
+	+ Display program \
+help and exit.
+
+- **--config**=__FILE__
+	* Specify a config __FILE__
+to use.
+	+ The length of __FILE__
+must be shorter than **PATH_MAX**.
+ - This line should be a third row.
+
+This line should not be in a list. The lines below should be just an asterisk, minus, and plus.
+
+*
+
+-
+
++
+
+* **--list-with-no-sublist**
+This shouldn't be a sublist.
+
+* **This is a list**
+* **It is directly followed by another list**
+	+ Which has a sublist.

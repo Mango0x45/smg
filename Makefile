@@ -1,0 +1,49 @@
+.POSIX:
+
+PREFIX = /usr/local
+
+target   = smg
+manpages = smg.1 smg.5
+
+CC     = cc
+CFLAGS = -O3 -pedantic -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes \
+		-DPROGNAME=\"${target}\"
+GFLAGS = --ignore-case
+
+DP = ${DESTDIR}${PREFIX}
+
+all: ${target}
+${target}: src/smg.c src/smg.h
+	${CC} ${CFLAGS} -o $@ src/smg.c
+
+man: ${target} man/smg.1.smg man/smg.5.smg
+	for i in 1 5; do \
+		./${target} man/smg.$$i.smg >smg.$$i; \
+	done
+
+
+clean:
+	rm -f ${target} smg.[15] hash.c
+
+debug: CFLAGS += -DDEBUG
+debug: clean all
+
+hash:
+	gperf ${GFLAGS} src/metatags.gperf | sed -n '/^static unsigned int/,/^}/p' >hash.c
+
+format:
+	clang-format -i --style=file src/*.[ch]
+
+test: debug
+	tests/test.sh
+
+install: ${target} ${manpages}
+	mkdir -p ${DP}/bin ${DP}/share/man/man1 ${DP}/share/man/man5
+	cp ${target} ${DP}/bin/${target}
+	cp smg.1 ${DP}/share/man/man1
+	cp smg.5 ${DP}/share/man/man5
+
+uninstall:
+	rm -f ${DP}/bin/${target} ${DP}/share/man/man1/smg.1 ${DP}/share/man/man5/smg.5
+
+.PHONY: man clean debug hash format test install uninstall
