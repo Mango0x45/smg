@@ -370,6 +370,9 @@ parse_file(const char *s)
 			case '\\':
 				parse_char('\\');
 				break;
+			case '|':
+				fputs("\\|", stdout);
+				break;
 			default:
 				putchar(*s);
 			}
