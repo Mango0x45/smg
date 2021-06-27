@@ -39,11 +39,11 @@ format:
 test: debug
 	tests/test.sh
 
-install: ${target} ${manpages}
+install: ${target} man
 	mkdir -p ${DP}/bin ${DP}/share/man/man1 ${DP}/share/man/man5
 	cp ${target} ${DP}/bin/${target}
-	cp smg.1 ${DP}/share/man/man1
-	cp smg.5 ${DP}/share/man/man5
+	cp smg.1* ${DP}/share/man/man1
+	cp smg.5* ${DP}/share/man/man5
 
 uninstall:
 	rm -f ${DP}/bin/${target} ${DP}/share/man/man[15]/smg.[15] \
