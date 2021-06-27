@@ -4,19 +4,23 @@
 @title General Commands Manual
 @date 2021-06-27
 
-# NAME
+NAME
+====
 smg - the simple manpage generator
 
-# SYNOPSIS
+SYNOPSIS
+========
 **smg** __file__
 
-# DESCRIPTION
+DESCRIPTION
+===========
 **smg** is a simple manpage generator. It reads an input file using a markdown\-like syntax and
 prints a manpage to standard output. This output can then be redirected into a file to be read by
 **man**(1) or piped into another program for further processing. For documentation on smg syntax,
 see **smg**(5).
 
-# EXAMPLES
+EXAMPLES
+========
 **smg** __foo.1.smg__ >__foo.1__
 >
 Read the **smg** readable manpage from __foo.1.smg__ and write the **man**(1) readable manpage to
@@ -30,17 +34,21 @@ compressed. The compressed output is then redirected into a compressed manpage r
 **man**(1).
 <
 
-# EXIT STATUS
+EXIT STATUS
+===========
 * 0
 	* Successful program execution.
 * 1
 	* Usage or syntax error.
 
-# NOTES
+NOTES
+=====
 Tables are currently not yet supported.
 
-# BUGS
+BUGS
+====
 None discovered.
 
-# SEE ALSO
+SEE ALSO
+========
 **gzip**(1), **man**(1), **smg**(5)

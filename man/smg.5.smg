@@ -4,15 +4,18 @@
 @version 1.0.0
 @title File Formats Manual
 
-# NAME
+NAME
+====
 smg - markdown inspired format for writing manpages
 
-# STRUCTURE
+STRUCTURE
+=========
 The structure for an **smg** manpage is very simple. Every file must contain a __metadata__
 section and can optionally contain a __text__ section, although there is no real point to having a
 manpage without one. The __metadata__ section must **always** come before the __text__ section.
 
-# METADATA SECTION
+METADATA SECTION
+================
 The __metadata__ section consists of 5 mandatory lines describing basic information about the
 manpage. This information is used by **man**(1) in the corners, top, and bottom of the manpage.
 
@@ -41,7 +44,8 @@ written as follows:
 
 Do note that the metadata identifiers such as "name" and "date" are case\-insensitive.
 
-# TEXT SECTION
+TEXT SECTION
+============
 The __text__ section uses a syntax that is very heavily inspired by markdown. Something important
 to note is that all the symbols used for formatting such as '#' and '**' can be escaped with a
 blackslash. To write a literal backslash you must do '\\\\'. Also important to note is that a minus
@@ -50,7 +54,8 @@ minus. For dashes in options, you should use minuses, but in normal text, for no
 hyphen. By default **smg**(1) will treat a '-' as a minus. To treat it as a hyphen you must write
 '\\-'.
 
-## HEADINGS
+HEADINGS
+--------
 A heading can be written as:
 
 >
@@ -67,10 +72,26 @@ Where __HEADER__ is the header text. Likewise, a subheading can be written as:
 ```
 <
 
-It is very important that the '#' symbols are at the beginning of the line, however whitespace
-after the '#' symbols are optional.
+It is very important that the '#' tokens are at the beginning of the line, however whitespace after
+the '#' tokens are optional. Alternatively, you can underline a heading with the '=' and '-' tokens.
 
-## BOLD AND ITALICS
+For example:
+
+>
+```
+HEADER
+======
+
+SUBHEADER
+---------
+```
+<
+
+The length of the underline does not matter, all that matters is that the line directly after the
+(sub\-)heading contains **only** '=' or '-' characters.
+
+BOLD AND ITALICS
+----------------
 Bold and italic text can be achieved by using the '**' and '__' tokens on the left and right of the
 text you want to make bold/italic. It should be noted that the formatting only applies for the
 current line. For formatted text that spans multiple lines, you must write the tokens on each line.
@@ -96,7 +117,8 @@ If you want to include '**' or '__' in your bold/italic text, you can simply esc
 ```
 <
 
-## INDENTATION
+INDENTATION
+-----------
 Indentation can be achieved both implicitly and explicitly. Headings, subheadings, and tables are
 all implicitly indented. Everything else requires explicit indendation. Headings denoted with a
 leading '#' are always indented to the far left, subheadings denoted with a leading '##' are always
@@ -123,7 +145,8 @@ This text is now indented by only 4 spaces relative to the first line.
 In fact, all the examples shown in this manpage are wrapped in a '>' and '<' to give them their
 indent.
 
-## CODE BLOCKS / UNFORMATTED TEXT
+CODE BLOCKS / UNFORMATTED TEXT
+------------------------------
 If you would like to have unformatted text, useful for example code, you can wrap text with the '`'
 token. Similarly to the indentation tokens, the '`' tokens must be written on their own line before
 and after the unformatted text. Only 1 '`' is required, however in the case you want to write a
@@ -147,7 +170,8 @@ I could also have used 4 or 6 backticks, but that is unnecessary.
 ```
 <
 
-## LISTS
+LISTS
+-----
 Just like in markdown, lists can use either the '-', '+', or '*' tokens. The primary usecase for a
 list is to document the options a command can accept.
 
@@ -184,7 +208,8 @@ indent it however, or that will appear in the final text.
 If you would like to have multiple paragraphs explaining a certain commands option for example, you
 can simply use multiple sublist items.
 
-## LINE BREAKS
+LINE BREAKS
+-----------
 When writing text, anything split across lines will be displayed by **man**(1) as one continuous
 block of text. If however you want to force a linebreak between two lines, you can append the '\\'
 token to the end of a line.
@@ -202,7 +227,8 @@ and these three lines will all display seperately.
 A current limitation of the syntax is that any whitespace before the '\\' token will be rendered
 which may potentially cause formatting issues if you have too much whitespace.
 
-## MISCELLANEOUS
+MISCELLANEOUS
+-------------
 Sometimes when writing a manual page you want write an ellipses (.\|.\|.) or something else that
 benefits from narrow spaces. **smg**(1) syntax allows for this the same way **groff_man**(7) does
 with the '\\|' escape sequence. On terminals this will have no effect however on typesetters it
@@ -212,10 +238,12 @@ For example this is how you can write the synopsis for **cat**(1):
 
 >
 ```
-# SYNOPSIS
+SYNOPSIS
+========
 cat [option].\|.\|. [file].\|.\|.
 ```
 <
 
-# SEE ALSO
+SEE ALSO
+========
 **man**(1), **smg**(1)
