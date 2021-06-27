@@ -4,7 +4,7 @@ This is a simple manpage generator that uses a markdown-like syntax. Program usa
 simple. It takes an `smg` formatted file as its first and only parameter, and outputs the `man`
 formatted text to standard output.
 
-`smg` is extrememly minimal and is written in around 375 lines of C code. If you want to fact check
+`smg` is extrememly minimal and is written in around 400 lines of C code. If you want to fact check
 this, try the following command which ignores blank lines, function return types, comments, and
 preprocessor statements:
 
