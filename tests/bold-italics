@@ -6,7 +6,9 @@
 
 # TEST
 This is **bold**. This is __italic__. This is **__mixed but bold__** and this is
-__**mixed but italic**__. Also \**this should not be formatted** and neither \__should this__
+__**mixed but italic**__. Also **this should not be formatted\** and neither __should this\__
+
+**This is bold test with a '\**' in the middle.**
 
 **This is bold text
 spanning 2 lines**. It should not be formatted.

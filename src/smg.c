@@ -178,7 +178,13 @@ static const char *
 parse_emphasis(const char *s)
 {
 	const char op = *s++;
-	const char *end = one_line_strstr(s, (op == '*') ? "**" : "__");
+	const char *end = s, *token = (op == '*') ? "**" : "__";
+
+	while ((end = one_line_strstr(end, token))) {
+		if (*(end - 1) != '\\')
+			break;
+		end++;
+	}
 
 	if (!end) {
 		putchar(op);
