@@ -9,7 +9,7 @@ this, try the following command which ignores blank lines, function return types
 preprocessor statements:
 
 ```
-$ cat src/*.[ch] | sed -E '/(^$|\/\*.*\*\/|^#|^static|^int$)/d' | wc -l
+$ awk '!/(^$|\/\*.*\*\/|^#|^static|^int$)/ { i++ } END { print i }' src/*.[ch]
 ```
 
 Here is a basic example of how it can be used:
