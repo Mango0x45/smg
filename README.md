@@ -4,6 +4,14 @@ This is a simple manpage generator that uses a markdown-like syntax. Program usa
 simple. It takes an `smg` formatted file as its first and only parameter, and outputs the `man`
 formatted text to standard output.
 
+`smg` is extrememly minimal and is written in around 375 lines of C code. If you want to fact check
+this, try the following command which ignores blank lines, function return types, comments, and
+preprocessor statements:
+
+```
+$ cat src/*.[ch] | sed -E '/(^$|\/\*.*\*\/|^#|^static|^int$)/d' | wc -l
+```
+
 Here is a basic example of how it can be used:
 ```
 $ cat example
