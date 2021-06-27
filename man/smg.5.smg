@@ -151,7 +151,7 @@ I could also have used 4 or 6 backticks, but that is unnecessary.
 Just like in markdown, lists can use either the '-', '+', or '*' tokens. The primary usecase for a
 list is to document the options a command can accept.
 
-Here is an example of **smg**(1) list syntax for part of the **tr**(1) manual:
+Here is an example of **smg**(1) list syntax for part of the GNU **tr**(1) manual:
 
 >
 ```
