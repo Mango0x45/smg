@@ -17,13 +17,15 @@ ${target}: src/smg.c src/smg.h
 	${CC} ${CFLAGS} -o $@ src/smg.c
 
 man: ${target} man/smg.1.smg man/smg.5.smg
+	command -v gzip >/dev/null && GZIP=1; \
 	for i in 1 5; do \
-		./${target} man/smg.$$i.smg >smg.$$i; \
+		[ -z "$$GZIP" ] && ./${target} man/smg.$$i.smg >smg.$$i || \
+			./${target} man/smg.$$i.smg | gzip -c9 >smg.$$i.gz; \
 	done
 
 
 clean:
-	rm -f ${target} smg.[15] hash.c
+	rm -f ${target} smg.[15] smg.[15].gz hash.c
 
 debug: CFLAGS += -DDEBUG
 debug: clean all
@@ -44,6 +46,7 @@ install: ${target} ${manpages}
 	cp smg.5 ${DP}/share/man/man5
 
 uninstall:
-	rm -f ${DP}/bin/${target} ${DP}/share/man/man1/smg.1 ${DP}/share/man/man5/smg.5
+	rm -f ${DP}/bin/${target} ${DP}/share/man/man[15]/smg.[15] \
+		${DP}/share/man/man[15]/smg.[15].gz
 
 .PHONY: man clean debug hash format test install uninstall
