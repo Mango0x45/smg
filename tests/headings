@@ -5,6 +5,7 @@
 @title MPG Tests
 
 # TEST
+
 # THIS IS A MAIN HEADING
 
 ## THIS IS A SUBHEADING
@@ -14,3 +15,12 @@
 # # THIS IS A MAIN HEADING
 
 \# And this is not a heading at all!
+
+THIS USES AN UNDERLINE
+======================
+
+SO DOES THIS
+--
+
+This isn't a heading
+\==
