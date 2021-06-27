@@ -260,15 +260,24 @@ parse_indent(const char *s)
 }
 
 static const char *
-parse_header(const char *s)
+parse_header(const char *s, const char c)
 {
+	if (c == '=')
+		goto header;
+	else if (c == '-') {
+		fputs(".SS ", stdout);
+		goto out;
+	}
+
 	if (*++s == '#') {
 		fputs(".SS ", stdout);
 		s++;
 	}
 	else
+header:
 		fputs(".SH ", stdout);
 
+out:
 	/* Skip whitespace after the '#' */
 	while (isblank(*s))
 		s++;
@@ -387,7 +396,7 @@ parse_file(const char *s)
 				s = parse_paragraph(s);
 				continue;
 			case '#':
-				s = parse_header(s);
+				s = parse_header(s, 0);
 				break;
 			case '>':
 			case '<':
@@ -417,6 +426,22 @@ default_case:
 					puts(".PP");
 					list_state = NOT_IN_LIST;
 				}
+
+				/* Support underlining headings */
+				const char *nl;
+				if ((nl = strchr(s, '\n'))) {
+					const char c = *++nl;
+					if (c != '=' && c != '-')
+						goto no_anchor_tag;
+
+					while (*++nl == c) {}
+					if (*nl != '\n')
+						goto no_anchor_tag;
+					(void) parse_header(s, c);
+					s = --nl;
+					break;
+				}
+
 				goto no_anchor_tag;
 			}
 			newline = false;
