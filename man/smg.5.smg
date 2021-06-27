@@ -202,5 +202,20 @@ and these three lines will all display seperately.
 A current limitation of the syntax is that any whitespace before the '\\' token will be rendered
 which may potentially cause formatting issues if you have too much whitespace.
 
+## MISCELLANEOUS
+Sometimes when writing a manual page you want write an ellipses (.\|.\|.) or something else that
+benefits from narrow spaces. **smg**(1) syntax allows for this the same way **groff_man**(7) does
+with the '\\|' escape sequence. On terminals this will have no effect however on typesetters it
+equates to one\-sixth em.
+
+For example this is how you can write the synopsis for **cat**(1):
+
+>
+```
+# SYNOPSIS
+cat [option].\|.\|. [file].\|.\|.
+```
+<
+
 # SEE ALSO
 **man**(1), **smg**(1)
