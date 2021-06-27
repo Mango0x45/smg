@@ -1,0 +1,206 @@
+@name SMG
+@date 2021-06-27
+@section 5
+@version 1.0.0
+@title File Formats Manual
+
+# NAME
+smg - markdown inspired format for writing manpages
+
+# STRUCTURE
+The structure for an **smg** manpage is very simple. Every file must contain a __metadata__
+section and can optionally contain a __text__ section, although there is no real point to having a
+manpage without one. The __metadata__ section must **always** come before the __text__ section.
+
+# METADATA SECTION
+The __metadata__ section consists of 5 mandatory lines describing basic information about the
+manpage. This information is used by **man**(1) in the corners, top, and bottom of the manpage.
+
+The 5 metadata lines can be in any order but must contain the following information:
+
+**Name**     The name of the program/function/etc.\
+**Date**     The date the manpage was written on.\
+**Section**  The manpages **man**(1) section. The different sections are detailed in the **man**(1)
+manpage.\
+**Version**  The version number.\
+**Title**    The manpage title.
+
+A syntax for a metadata line is a '@' followed by the type of metadata which is in turn followed by
+the actual data. As an example the metadata section for the original version of this manpage was
+written as follows:
+
+>
+```
+@name SMG
+@date 2021-06-21
+@section 5
+@version 1.0.0
+@title File Formats Manual
+```
+<
+
+Do note that the metadata identifiers such as "name" and "date" are case\-insensitive.
+
+# TEXT SECTION
+The __text__ section uses a syntax that is very heavily inspired by markdown. Something important
+to note is that all the symbols used for formatting such as '#' and '**' can be escaped with a
+blackslash. To write a literal backslash you must do '\\\\'. Also important to note is that a minus
+and a hyphen are not the same. The typesetter is free to break a line at a hyphen, but not at a
+minus. For dashes in options, you should use minuses, but in normal text, for normal words, the
+hyphen. By default **smg**(1) will treat a '-' as a minus. To treat it as a hyphen you must write
+'\\-'.
+
+## HEADINGS
+A heading can be written as:
+
+>
+```
+# HEADER
+```
+<
+
+Where __HEADER__ is the header text. Likewise, a subheading can be written as:
+
+>
+```
+## SUBHEADER
+```
+<
+
+It is very important that the '#' symbols are at the beginning of the line, however whitespace
+after the '#' symbols are optional.
+
+## BOLD AND ITALICS
+Bold and italic text can be achieved by using the '**' and '__' tokens on the left and right of the
+text you want to make bold/italic. It should be noted that the formatting only applies for the
+current line. For formatted text that spans multiple lines, you must write the tokens on each line.
+It should also be noted that you cannot have text that is both **bold** and __italic__. You can only
+have one.
+
+For example:
+
+>
+```
+**This is bold text**
+
+__This is all one sentence__
+__however due to the linebreak you must rewrite the tokens__
+```
+<
+
+If you want to include '**' or '__' in your bold/italic text, you can simply escape it like so:
+
+>
+```
+**Bold text like this can be achieved by wrapping text in '\**' tokens.**
+```
+<
+
+## INDENTATION
+Indentation can be achieved both implicitly and explicitly. Headings, subheadings, and tables are
+all implicitly indented. Everything else requires explicit indendation. Headings denoted with a
+leading '#' are always indented to the far left, subheadings denoted with a leading '##' are always
+indented by 4 spaces, and sublists denoted by leading whitespace followed by either '-', '+', or '*'
+are always indented by 8 spaces relative to the main list item.
+
+To explicity indent text that is not implicitly indented, you can use the '<' and '>' tokens. A line
+containing only '<' tokens or only '>' tokens (not both) will not be printed and will instead be
+used to alter the indentation of the following text. Each '<' or '>' decreases or increases the
+relative indent by 4 spaces.
+
+For example:
+
+>
+```
+Here is some text
+>>
+This text is now indented by 8 spaces relative to the line above.
+<
+This text is now indented by only 4 spaces relative to the first line.
+```
+<
+
+In fact, all the examples shown in this manpage are wrapped in a '>' and '<' to give them their
+indent.
+
+## CODE BLOCKS / UNFORMATTED TEXT
+If you would like to have unformatted text, useful for example code, you can wrap text with the '`'
+token. Similarly to the indentation tokens, the '`' tokens must be written on their own line before
+and after the unformatted text. Only 1 '`' is required, however in the case you want to write a
+literal '`' in your text, you can instead use 2 or 3 or however many '`' tokens you want as tokens.
+
+For example:
+
+>
+```
+`
+This is some unformatted text.
+This is more unformatted text.
+`
+
+``
+In this unformatted text, I want to be able to write the backtick (`) so I will instead use '``'
+as opposed to '`'.
+
+I could also have used 4 or 6 backticks, but that is unnecessary.
+``
+```
+<
+
+## LISTS
+Just like in markdown, lists can use either the '-', '+', or '*' tokens. The primary usecase for a
+list is to document the options a command can accept.
+
+Here is an example of **smg**(1) list syntax for part of the **tr**(1) manual:
+
+>
+```
++ -c, -C, --complement
+	+ use the complement of SET1
++ -d, --delete
+	+ delete characters in SET1, do not translate
+```
+<
+
+In the above example the options were not boldened for ease of understanding the syntax, however it
+is conventional to make options bold.
+
+When writing lists, the token for the main list item ('+' in the above example) must be the first
+character on the line. When writing a sublist item, the token must be preceeded by any amount of
+whitespace. The whitespace **after** the token the before the first non-whitespace character is
+ignored. One of the limitations of **smg**(1) syntax is that the text for the main list item must
+all be written on the same line. Text for subitems however can be written on multiple lines.
+
+For example:
+
+>
+```
++ All of this text must be on one line, continuing on the next line will cause the text to be incorrectly formatted.
+	+ With a subitem like this however, the text can be split across multiple lines. You musn't
+indent it however, or that will appear in the final text.
+```
+<
+
+If you would like to have multiple paragraphs explaining a certain commands option for example, you
+can simply use multiple sublist items.
+
+## LINE BREAKS
+When writing text, anything split across lines will be displayed by **man**(1) as one continuous
+block of text. If however you want to force a linebreak between two lines, you can append the '\\'
+token to the end of a line.
+
+For example:
+
+>
+```
+This is one line\
+and this is a second\
+and these three lines will all display seperately.
+```
+<
+
+A current limitation of the syntax is that any whitespace before the '\\' token will be rendered
+which may potentially cause formatting issues if you have too much whitespace.
+
+# SEE ALSO
+**man**(1), **smg**(1)
