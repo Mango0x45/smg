@@ -16,7 +16,7 @@
 
 /* clang-format off */
 /* Keep sorted for binary search, sort(1) is your best friend. */
-static struct Tag replace[] = {
+static const struct Tag replace[] = {
 	{ '"',  "\\(dq" },
 	{ '\'', "\\(aq" },
 	{ '-',  "\\-"   },
