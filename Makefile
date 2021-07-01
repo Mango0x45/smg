@@ -18,9 +18,9 @@ ${target}: src/smg.c src/smg.h
 
 man: ${target} man/smg.1.smg man/smg.5.smg
 	command -v gzip >/dev/null && GZIP=1; \
-	for i in 1 5; do \
-		[ -z "$$GZIP" ] && ./${target} man/smg.$$i.smg >smg.$$i || \
-			./${target} man/smg.$$i.smg | gzip -c9 >smg.$$i.gz; \
+	for manpage in ${manpages}; do \
+		[ -z "$$GZIP" ] && ./${target} man/$$manpage.smg >$$manpage || \
+			./${target} man/$$manpage.smg | gzip -c9 >$$manpage.gz; \
 	done
 
 
