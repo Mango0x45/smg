@@ -460,6 +460,14 @@ no_anchor_tag:
 				else
 					putchar(*s);
 				break;
+			case '.':
+				if (*(s + 1) == '.' && *(s + 2) == '.') {
+					fputs(".\\|.\\|.", stdout);
+					s += 2;
+				}
+				else
+					putchar('.');
+				break;
 			default:
 				parse_char(*s);
 			}
