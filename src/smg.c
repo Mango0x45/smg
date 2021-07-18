@@ -14,6 +14,8 @@
 
 #define ARRAY_SIZE(x) ((sizeof(x)) / (sizeof(x[0])))
 
+static const char *argv0;
+
 /* clang-format off */
 /* Keep sorted for binary search, sort(1) is your best friend. */
 static const struct Tag replace[] = {
@@ -50,10 +52,12 @@ static void
 parse_char(const char c)
 {
 	/* Static to avoid computing this every single time */
-	static int array_size = ARRAY_SIZE(replace), array_middle = ARRAY_SIZE(replace) / 2;
+	static int array_size = ARRAY_SIZE(replace);
+	static int array_middle = ARRAY_SIZE(replace) / 2;
 
-	int first = 0, last = array_size;
+	int first = 0;
 	int middle = array_middle;
+	int last = array_size;
 
 	while (first <= last) {
 		if (replace[middle].symbol < c)
@@ -74,7 +78,7 @@ parse_char(const char c)
 static noreturn void
 die(const char *s)
 {
-	fprintf(stderr, PROGNAME ": %s", s);
+	fprintf(stderr, "%s: %s", argv0, s);
 	if (errno)
 		fprintf(stderr, ": %s", strerror(errno));
 
@@ -85,7 +89,7 @@ die(const char *s)
 static noreturn void
 usage(void)
 {
-	fputs("Usage: " PROGNAME " file\n", stderr);
+	fprintf(stderr, "Usage: %s file\n", argv0);
 	exit(EXIT_FAILURE);
 }
 
@@ -181,7 +185,8 @@ static const char *
 parse_emphasis(const char *s)
 {
 	const char op = *s++;
-	const char *end = s, *token = (op == '*') ? "**" : "__";
+	const char *end = s;
+	const char *token = (op == '*') ? "**" : "__";
 
 	while ((end = one_line_strstr(end, token))) {
 		if (*(end - 1) != '\\')
@@ -366,7 +371,7 @@ parse_metadata(const char *s)
 static void
 parse_file(const char *s)
 {
-	bool newline = true;
+	bool anchor = true;
 	enum ListState list_state = NOT_IN_LIST;
 
 	s = parse_metadata(s);
@@ -385,9 +390,9 @@ parse_file(const char *s)
 			default:
 				putchar(*s);
 			}
-			newline = false;
+			anchor = false;
 		}
-		else if (newline) {
+		else if (anchor) {
 			switch (*s) {
 			case '.':
 				fputs("\\&.", stdout);
@@ -421,7 +426,7 @@ parse_file(const char *s)
 				}
 			default:
 default_case:
-				newline = false;
+				anchor = false;
 				if (list_state == FIRST_SUBLIST) {
 					puts(".PP");
 					list_state = NOT_IN_LIST;
@@ -444,14 +449,14 @@ default_case:
 
 				goto no_anchor_tag;
 			}
-			newline = false;
+			anchor = false;
 		}
 		else {
 no_anchor_tag:
 			switch (*s) {
 			case '\n':
 				putchar('\n');
-				newline = true;
+				anchor = true;
 				break;
 			case '*':
 			case '_':
@@ -502,6 +507,7 @@ load_file(char *file)
 int
 main(int argc, char **argv)
 {
+	argv0 = argv[0];
 	if (argc != 2)
 		usage();
 	setlocale(LC_ALL, "");
