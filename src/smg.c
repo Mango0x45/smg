@@ -488,9 +488,7 @@ load_file(char *file)
 		die("fopen");
 
 	struct stat sb;
-	int ret = stat(file, &sb);
-	if (ret == -1)
-		die("stat");
+	(void) stat(file, &sb);
 
 	char *buf = calloc(sb.st_size + 1, sizeof(char));
 	if (!buf)
